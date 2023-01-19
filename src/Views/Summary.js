@@ -225,7 +225,7 @@ export const Summary = ({ setSteps, data, setData }) => {
                 >
                   <Typography
                     color="secondary"
-                    sx={{ fontWeight: 400, fontSize: ".8em" }}
+                    sx={laptop ? {fontSize: '1em'} : { fontWeight: 400, fontSize: ".8em" }}
                   >
                     {extra.name}
                   </Typography>
