@@ -238,7 +238,7 @@ export const Plan = ({ setSteps, data, setData }) => {
                 >
                   {plan.name}
                 </Typography>
-                <Typography color="secondary" sx={{ fontSize: ".8em" }}>
+                <Typography color="secondary" sx={laptop ? {} : { fontSize: ".8em" }}>
                   {period == "yr"
                     ? `$ ${plan.price * 10}/yr`
                     : `$ ${plan.price}/mo`}
