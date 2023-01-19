@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Avatar, Box, Button, Card, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import icon from "../assets/icon-thank-you.svg";
 
 export const Summary = ({ setSteps, data, setData }) => {
@@ -61,28 +69,54 @@ export const Summary = ({ setSteps, data, setData }) => {
     ]);
   };
 
+  const theme = useTheme();
+
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
+
   return (
     <>
       {confirm ? (
         <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "70%",
-          }}
+          sx={
+            laptop
+              ? {
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "70%",
+                }
+              : {
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  padding: '2em'
+                }
+          }
         >
-          <Avatar src={icon} sx={{ width: 80, height: 80 }} />
+          <Avatar
+            src={icon}
+            sx={laptop ? { width: 80, height: 80 } : { width: 60, height: 60 }}
+          />
           <Typography
             color="primary"
-            sx={{ fontWeight: 700, fontSize: "2em", margin: "20px 0px" }}
+            sx={
+              laptop
+                ? { fontWeight: 700, fontSize: "2em", margin: "20px 0px" }
+                : { fontWeight: 700, fontSize: "1.5em", margin: "15px 0px" }
+            }
           >
             Thank you!
           </Typography>
           <Typography
             color="secondary"
-            sx={{ fontWeight: 400, width: "75%", textAlign: "center" }}
+            sx={
+              laptop
+                ? { fontWeight: 400, width: "75%", textAlign: "center" }
+                : { fontWeight: 400, textAlign: "center" }
+            }
           >
             Thanks for confirming your subscription! We hope you have fun using
             our plataform. If you ever need support, please feel free to email
@@ -91,19 +125,27 @@ export const Summary = ({ setSteps, data, setData }) => {
         </Box>
       ) : (
         <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            width: "75%",
-            padding: "5em",
-          }}
+          sx={
+            laptop
+              ? {
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  width: "75%",
+                  padding: "5em",
+                }
+              : {}
+          }
         >
           <Box sx={{ marginBottom: "20px" }}>
             <Typography
               color="primary"
               variant="h2"
-              sx={{ fontSize: "2em", fontWeight: 700 }}
+              sx={
+                laptop
+                  ? { fontSize: "2em", fontWeight: 700 }
+                  : { fontSize: "1.5em", fontWeight: 700 }
+              }
             >
               Finishing up
             </Typography>
@@ -116,18 +158,27 @@ export const Summary = ({ setSteps, data, setData }) => {
             </Typography>
           </Box>
           <Card
-            sx={{
-              backgroundColor: "hsl(217, 100%, 97%)",
-              padding: "1em 2em",
-              minHeight: "170px",
-            }}
+            sx={
+              laptop
+                ? {
+                    backgroundColor: "hsl(217, 100%, 97%)",
+                    padding: "1em 2em",
+                    minHeight: "170px",
+                  }
+                : {
+                    backgroundColor: "hsl(217, 100%, 97%)",
+                    padding: "1em 1em",
+                    minHeight: "170px",
+                    widht: "90%",
+                  }
+            }
             elevation={0}
           >
             <Box>
               <Box
                 sx={{
                   display: "flex",
-                  alignItems: "center",
+                  alignItems: "flex-stard",
                   justifyContent: "space-between",
                   marginBottom: "15px",
                 }}
@@ -165,10 +216,17 @@ export const Summary = ({ setSteps, data, setData }) => {
             <Box>
               {extras.map((extra) => (
                 <Box
-                  sx={{ display: "flex", justifyContent: "space-between" }}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                   key={extra.name}
                 >
-                  <Typography color="secondary" sx={{ fontWeight: 400 }}>
+                  <Typography
+                    color="secondary"
+                    sx={{ fontWeight: 400, fontSize: ".8em" }}
+                  >
                     {extra.name}
                   </Typography>
                   <Typography color="primary" sx={{ fontWeight: 600 }}>
@@ -181,22 +239,38 @@ export const Summary = ({ setSteps, data, setData }) => {
             </Box>
           </Card>
           <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "1em 2em",
-            }}
+            sx={
+              laptop
+                ? {
+                    display: "flex",
+                    justifyContent: "space-between",
+                    padding: "1em 2em",
+                  }
+                : {
+                    display: "flex",
+                    justifyContent: "space-between",
+                    padding: "1em",
+                  }
+            }
           >
             <Typography color="secondary" sx={{ fontWeight: 400 }}>
               Total (per month)
             </Typography>
             <Typography
               color="primary"
-              sx={{
-                fontWeight: 600,
-                fontSize: "1.4em",
-                color: "hsl(243, 100%, 62%)",
-              }}
+              sx={
+                laptop
+                  ? {
+                      fontWeight: 600,
+                      fontSize: "1.4em",
+                      color: "hsl(243, 100%, 62%)",
+                    }
+                  : {
+                      fontWeight: 600,
+                      fontSize: "1em",
+                      color: "hsl(243, 100%, 62%)",
+                    }
+              }
             >
               {data.planInfo.period == "yr"
                 ? `$ ${total * 10}/yr`
@@ -212,7 +286,7 @@ export const Summary = ({ setSteps, data, setData }) => {
             }}
           >
             <Button
-              sx={{ marginTop: "50px" }}
+              sx={laptop ? { marginTop: "50px" } : { marginTop: "10px" }}
               color="secondary"
               onClick={goToBack}
             >
@@ -221,7 +295,7 @@ export const Summary = ({ setSteps, data, setData }) => {
             <Button
               onClick={() => setConfirm(true)}
               variant="contained"
-              sx={{ marginTop: "50px" }}
+              sx={laptop ? { marginTop: "50px" } : { marginTop: "10px" }}
               type="submit"
             >
               Confirm

@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Button, Checkbox, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
 export const AddOns = ({ data, setData, setSteps }) => {
   const [selectCamps, setSelectCamps] = useState(data.onnsInfo.selectCamps);
@@ -64,23 +71,35 @@ export const AddOns = ({ data, setData, setSteps }) => {
         active: false,
       },
     ]);
-  }
+  };
+
+  const theme = useTheme();
+
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        width: "75%",
-        padding: "5em",
-      }}
+      sx={
+        laptop
+          ? {
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              width: "75%",
+              padding: "5em",
+            }
+          : {}
+      }
     >
       <Box sx={{ marginBottom: "20px" }}>
         <Typography
           color="primary"
           variant="h2"
-          sx={{ fontSize: "2em", fontWeight: 700 }}
+          sx={
+            laptop
+              ? { fontSize: "2em", fontWeight: 700 }
+              : { fontSize: "1.5em", fontWeight: 700 }
+          }
         >
           Pick add-ons
         </Typography>
@@ -88,61 +107,137 @@ export const AddOns = ({ data, setData, setSteps }) => {
           Add-ons help enhance your gaming experience.
         </Typography>
       </Box>
-      <Box>
-        {selectCamps.map((camp, index) => (
-          <Box
-            key={camp.name}
-            sx={
-              selectCamps.checked
-                ? {
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "15px",
-                    borderRadius: "5px",
-                    border: "2px solid hsl(243, 100%, 62%)",
-                    backgroundColor: "hsl(231, 100%, 99%)",
-                    margin: "10px 0px",
-                  }
-                : {
-                    display: "flex",
-                    alignItems: "center",
-                    border: "2px solid hsl(229, 24%, 87%)",
-                    justifyContent: "space-between",
-                    padding: "15px",
-                    borderRadius: "5px",
-                    margin: "10px 0px",
-                  }
-            }
-          >
-            <Box sx={{ display: "flex" }}>
-              <Checkbox
-                sx={{
-                  color: "hsl(243, 100%, 62%",
-                  "&.Mui-checked": { color: "hsl(243, 100%, 62%" },
-                }}
-                checked={camp.checked}
-                onChange={handleChangeChecked(index)}
-                name={camp.name}
-              />
-              <Box>
-                <Typography
-                  color="primary"
-                  sx={{ fontWeight: 700, fontSize: "1.2em" }}
-                >
-                  {camp.name}
-                </Typography>
-                <Typography color="secondary">{camp.description}</Typography>
+      {laptop ? (
+        <Box>
+          {selectCamps.map((camp, index) => (
+            <Box
+              key={camp.name}
+              sx={
+                selectCamps.checked
+                  ? {
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "15px",
+                      borderRadius: "5px",
+                      border: "2px solid hsl(243, 100%, 62%)",
+                      backgroundColor: "hsl(231, 100%, 99%)",
+                      margin: "10px 0px",
+                    }
+                  : {
+                      display: "flex",
+                      alignItems: "center",
+                      border: "2px solid hsl(229, 24%, 87%)",
+                      justifyContent: "space-between",
+                      padding: "15px",
+                      borderRadius: "5px",
+                      margin: "10px 0px",
+                    }
+              }
+            >
+              <Box sx={{ display: "flex" }}>
+                <Checkbox
+                  sx={{
+                    color: "hsl(243, 100%, 62%",
+                    "&.Mui-checked": { color: "hsl(243, 100%, 62%" },
+                  }}
+                  checked={camp.checked}
+                  onChange={handleChangeChecked(index)}
+                  name={camp.name}
+                />
+                <Box>
+                  <Typography
+                    color="primary"
+                    sx={{ fontWeight: 700, fontSize: "1.2em" }}
+                  >
+                    {camp.name}
+                  </Typography>
+                  <Typography color="secondary">{camp.description}</Typography>
+                </Box>
               </Box>
+              <Typography
+                sx={{ color: "hsl(243, 100%, 62%)", fontWeight: 400 }}
+              >
+                {data.planInfo.period == "mo"
+                  ? `+${camp.price}/mo`
+                  : `+${camp.price * 10}/yr`}
+              </Typography>
             </Box>
-            <Typography sx={{ color: "hsl(243, 100%, 62%)", fontWeight: 400 }}>
-              {data.planInfo.period == "mo"
-                ? `+${camp.price}/mo`
-                : `+${camp.price * 10}/yr`}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
+          ))}
+        </Box>
+      ) : (
+        <Box>
+          {selectCamps.map((camp, index) => (
+            <Box
+              key={camp.name}
+              sx={
+                camp.checked
+                  ? {
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "5px",
+                      borderRadius: "5px",
+                      border: "2px solid hsl(243, 100%, 62%)",
+                      backgroundColor: "hsl(231, 100%, 99%)",
+                      margin: "10px 0px",
+                    }
+                  : {
+                      display: "flex",
+                      alignItems: "center",
+                      border: "2px solid hsl(229, 24%, 87%)",
+                      justifyContent: "space-between",
+                      padding: "5px",
+                      borderRadius: "10px",
+                      margin: "10px 0px",
+                    }
+              }
+            >
+              <Box sx={{ display: "flex" }}>
+                <Checkbox
+                  sx={{
+                    color: "hsl(243, 100%, 62%",
+                    "&.Mui-checked": { color: "hsl(243, 100%, 62%" },
+                  }}
+                  checked={camp.checked}
+                  onChange={handleChangeChecked(index)}
+                  name={camp.name}
+                />
+                <Box>
+                  <Typography
+                    color="primary"
+                    sx={{ fontWeight: 700, fontSize: ".8em" }}
+                  >
+                    {camp.name}
+                  </Typography>
+                  <Typography
+                    color="secondary"
+                    sx={{ fontWeight: 400, fontSize: ".6em" }}
+                  >
+                    {camp.description}
+                  </Typography>
+                </Box>
+              </Box>
+              <Typography
+                sx={
+                  laptop
+                    ? { color: "hsl(243, 100%, 62%)", fontWeight: 400 }
+                    : {
+                        color: "hsl(243, 100%, 62%)",
+                        fontWeight: 400,
+                        fontSize: ".7em",
+                      }
+                }
+              >
+                {data.planInfo.period == "mo"
+                  ? `+${camp.price}/mo`
+                  : `+${camp.price * 10}/yr`}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      )}
+
       <Box
         sx={{
           display: "flex",
@@ -151,14 +246,18 @@ export const AddOns = ({ data, setData, setSteps }) => {
           alignItems: "center",
         }}
       >
-        <Button sx={{ marginTop: "50px" }} color="secondary" onClick={goToBack}>
+        <Button
+          sx={laptop ? { marginTop: "50px" } : { marginTop: "10px" }}
+          color="secondary"
+          onClick={goToBack}
+        >
           Go Back
         </Button>
 
         <Button
           onClick={handleSubmit}
           variant="contained"
-          sx={{ marginTop: "50px" }}
+          sx={laptop ? { marginTop: "50px" } : { marginTop: "10px" }}
           type="submit"
         >
           Next Step

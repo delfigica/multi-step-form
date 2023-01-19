@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 
@@ -69,21 +69,25 @@ export const Info = ({ setSteps, steps, setData, data }) => {
     });
   };
 
+  const theme = useTheme();
+
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
+
   return (
     <Box
-      sx={{
+      sx={ laptop ? {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         width: "70%",
         padding: "5em",
-      }}
+      } : {}}
     >
       <Box sx={{ marginBottom: "20px" }}>
         <Typography
           color="primary"
           variant="h2"
-          sx={{ fontSize: "2em", fontWeight: 700 }}
+          sx={laptop ? { fontSize: "2em", fontWeight: 700 } : {fontSize: "1.5em", fontWeight: 700}}
         >
           Personal info
         </Typography>
@@ -93,14 +97,14 @@ export const Info = ({ setSteps, steps, setData, data }) => {
       </Box>
       <form>
         <Box
-          sx={{
+          sx={laptop ?{
             height: "280px",
             width: "500px",
             margin: "auto",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-          }}
+          }: {}}
         >
           <Box>
             <Typography color="primary" sx={{ fontWeight: 400 }}>
@@ -154,7 +158,7 @@ export const Info = ({ setSteps, steps, setData, data }) => {
           <Button
             onClick={onSubmit}
             variant="contained"
-            sx={{ marginTop: "50px" }}
+            sx={laptop ?{ marginTop: "50px" } : {marginTop: '10px'}}
             type="submit"
           >
             Next Step
